@@ -9,6 +9,9 @@
 
   [Download the latest release](https://github.com/smokeInCloud060201/kill-everything/releases) · [Report a problem](https://github.com/smokeInCloud060201/kill-everything/issues) · [Developer setup](#build-from-source)
 
+  [![CI & Cross-Platform Installers](https://github.com/smokeInCloud060201/kill-everything/actions/workflows/release.yml/badge.svg)](https://github.com/smokeInCloud060201/kill-everything/actions/workflows/release.yml)
+  [![Latest release](https://img.shields.io/github/v/release/smokeInCloud060201/kill-everything)](https://github.com/smokeInCloud060201/kill-everything/releases/latest)
+  [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-2a6650.svg)](LICENSE)
   [![Platform: macOS, Windows, and Linux](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-1e293b?style=flat-square)](https://github.com/smokeInCloud060201/kill-everything/releases)
   [![Built with Tauri and Rust](https://img.shields.io/badge/Built%20With-Tauri%20%2B%20Rust-ef4444?style=flat-square)](src-tauri/Cargo.toml)
   [![Privacy: local only](https://img.shields.io/badge/Privacy-Local%20Only%20%C2%B7%20No%20Account-2a6650?style=flat-square)](#privacy-and-data)
@@ -190,3 +193,7 @@ For implementation and architecture details, see [docs/DESIGN.md](docs/DESIGN.md
 ## Contributing
 
 Bug reports and feature ideas are welcome. Please describe what you expected, what happened instead, and your operating system. Do not include passwords or private data in reports.
+
+## License
+
+KillEverything is licensed under the [Apache License 2.0](LICENSE). Copyright © 2026 smokeInCloud060201.
