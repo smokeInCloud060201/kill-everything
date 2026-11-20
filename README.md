@@ -1,156 +1,192 @@
 <div align="center">
-  <img src="src-tauri/icons/128x128@2x.png" alt="KillEverything Logo" width="112" height="112" />
-  <h1>KillEverything</h1>
-  <p>
-    <strong>Kill frozen apps, zombie helper processes, and stuck dev ports in one click — across macOS, Windows, and Linux.</strong>
-  </p>
-  <p>
-    <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-1e293b?style=flat-square" alt="Platforms" />
-    <img src="https://img.shields.io/badge/Built%20With-Tauri%20v2%20%2B%20Rust-ef4444?style=flat-square" alt="Tauri v2 and Rust" />
-    <img src="https://img.shields.io/badge/Storage-Local%20SQLite-f59e0b?style=flat-square" alt="Local SQLite" />
-    <img src="https://img.shields.io/badge/Installer-~5%20MB-22c55e?style=flat-square" alt="Lightweight Installer" />
-  </p>
+  <img src="src-tauri/icons/128x128@2x.png" alt="KillEverything logo" width="112" height="112" />
+
+  # KillEverything
+
+  **One small shortcut for apps and processes that refuse to quit.**
+
+  KillEverything is a free, open-source desktop tool for macOS, Windows, and Linux. Create a reusable “kill action,” run it with one click, and keep working.
+
+  [Download the latest release](https://github.com/smokeInCloud060201/kill-everything/releases) · [Report a problem](https://github.com/smokeInCloud060201/kill-everything/issues) · [Developer setup](#build-from-source)
+
+  [![Platform: macOS, Windows, and Linux](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-1e293b?style=flat-square)](https://github.com/smokeInCloud060201/kill-everything/releases)
+  [![Built with Tauri and Rust](https://img.shields.io/badge/Built%20With-Tauri%20%2B%20Rust-ef4444?style=flat-square)](src-tauri/Cargo.toml)
+  [![Privacy: local only](https://img.shields.io/badge/Privacy-Local%20Only%20%C2%B7%20No%20Account-2a6650?style=flat-square)](#privacy-and-data)
 </div>
 
 ---
 
-## Why KillEverything?
+## What KillEverything does
 
-When an app freezes, simply closing its main window isn't enough — background workers, helper processes, or locked network ports often stay alive. Opening **Activity Monitor** (macOS), **Task Manager** (Windows), or **System Monitor** (Linux) to hunt down every process wastes time.
+Sometimes closing an app does not close every part of it. A frozen browser, helper process, development server, or service can remain in the background and keep a window or network port busy.
 
-**KillEverything** sits quietly on your screen as a tiny floating badge and menu bar / tray icon. Click it, pick your script, and everything is killed cleanly before you reopen the app.
+Instead of searching through system tools each time, KillEverything lets you save the exact command for that situation and run it whenever needed.
 
-> **You own every script:** KillEverything never auto-generates or guesses kill commands behind your back. You write the exact shell commands you trust, and KillEverything stores them safely in local SQLite and gives you an instant trigger.
+For example, you could create a one-click action that:
 
----
+- closes an app and every related helper process;
+- stops a development server running on a specific port;
+- frees a port when another app is using it;
+- restarts a tool or set of background processes.
 
-## Highlights
+You decide exactly what each action does. KillEverything does not guess or create commands for you.
 
-- **Two Instant Triggers** — Lives in your **Menu Bar / System Tray** and (optionally) as a **44×44px Floating Desktop Tick** that stays above windows and snaps magnetically to screen edges.
-- **1-Click Quick-Kill Popover** — Filter scripts as you type, press `↑`/`↓` + `Enter` to kill in under a second, pin favorites to the top, and view inline error logs if a script fails.
-- **OS-Native Shell Support** — Choose per script between `sh`, `bash`, `zsh` (macOS & Linux), `PowerShell`, `pwsh`, `CMD`, `Git Bash`, `WSL` (Windows), or any custom shell binary path.
-- **Safe Admin / `sudo` Execution** — Toggle **Run Elevated** per script to trigger native OS authentication (macOS Touch ID / password, Windows UAC, Linux PolicyKit). No passwords are ever stored.
-- **Featherweight Footprint** — ~5 MB installer, near-zero idle CPU, bundled SQLite (`WAL` mode), and on-demand Script Manager windows that release memory immediately when closed.
-- **Zero-Trace Uninstall** — Removing the app automatically wipes its SQLite database, execution logs, WebView caches, and autostart entries.
+## Simple by design
 
----
+- **Open from your menu bar or tray.** Keep a list of saved actions close at hand.
+- **Use a floating desktop button.** Optional small button, or no button at all if you prefer.
+- **Choose a keyboard shortcut.** Run a saved action directly with a global shortcut.
+- **Pin favorites.** Put your most-used actions in the tray menu for even faster access.
+- **Test before saving.** Run a command and see its output before using it again.
+- **Use the shell you trust.** Choose Bash, Zsh, PowerShell, CMD, Git Bash, WSL, or another installed shell.
+- **Back up your actions.** Export and import them as a JSON file.
 
-## Installation
+## Download and install
 
-Download the latest installer for your operating system from the [GitHub Releases](https://github.com/smokeInCloud060201/kill-everything/releases) page:
+Visit [KillEverything Releases](https://github.com/smokeInCloud060201/kill-everything/releases) and download the package for your computer.
 
-- **macOS (`.dmg`)**
-  1. Open `KillEverything_<version>_aarch64.dmg` (Apple Silicon) or `x64.dmg` (Intel).
-  2. Drag **KillEverything.app** into **Applications**.
-  3. *Tip for unsigned builds:* If macOS says the app cannot be opened from an unidentified developer, run once in Terminal:
-     ```bash
-     xattr -cr /Applications/KillEverything.app
-     ```
-- **Windows (`.exe`)**
-  - Run `KillEverything_<version>_x64-setup.exe` (installs cleanly for the current user).
-- **Linux (`.deb` / `.rpm`)**
-  - Debian / Ubuntu:
-    ```bash
-    sudo apt install ./kill-everything_*.deb
-    ```
-  - Fedora / RHEL:
-    ```bash
-    sudo dnf install ./kill-everything-*.rpm
-    ```
+### macOS
 
----
+1. Download the `.dmg` package for your Mac (Apple silicon or Intel).
+2. Open it and drag **KillEverything** into **Applications**.
+3. Open KillEverything from Applications.
 
-## Quick Start
+For an unsigned build, macOS may require you to clear its downloaded-app warning once:
 
-1. **Click the Menu Bar / Tray icon** or the **Floating Desktop Tick** on your screen.
-2. Click **`+`** to open the **Script Manager**, name your script, choose its shell (`bash`, `zsh`, `PowerShell`, etc.), and paste your kill script.
-3. Click **Test Run** to verify live output right inside the editor, then click **Save Script**.
-4. Next time an app gets stuck, click the badge and press **Kill**!
+```bash
+xattr -cr /Applications/KillEverything.app
+```
 
-### Starter Script Examples
+### Windows
 
-#### macOS / Linux (`bash` or `zsh`)
+Download and run the latest `.exe` installer. It installs for the current Windows user.
 
-**Force-close Chrome and all helper processes:**
+### Linux
+
+Debian or Ubuntu:
+
+```bash
+sudo apt install ./kill-everything_*.deb
+```
+
+Fedora or RHEL:
+
+```bash
+sudo dnf install ./kill-everything-*.rpm
+```
+
+## Quick start
+
+1. Open KillEverything from the menu bar or system tray.
+2. Select **Add Script**.
+3. Give the action a clear name.
+4. Choose a shell and enter the command or commands you want to run.
+5. Select **Test Run** to check it.
+6. Save it, then select **Kill** whenever you need to run it.
+
+### Example actions
+
+The examples below are intentionally simple. Review every command before running it, and only use permissions when the action requires them.
+
+#### macOS or Linux
+
+Close Chrome and its related processes:
+
 ```bash
 pkill -9 -f "Google Chrome" || true
 ```
 
-**Kill stuck local dev servers on ports `3000`, `5173`, and `8080`:**
+Stop apps using development ports `3000`, `5173`, or `8080`:
+
 ```bash
 for port in 3000 5173 8080; do
   lsof -ti :"$port" | xargs -r kill -9 2>/dev/null || true
 done
 ```
 
-**Stop Docker Desktop completely (macOS):**
-```bash
-osascript -e 'quit app "Docker"' 2>/dev/null || true
-pkill -9 -f "Docker" || true
-```
+#### Windows PowerShell
 
-#### Windows (`PowerShell` or `CMD`)
+Stop all Node.js processes:
 
-**Force-close Chrome and its entire process tree (`CMD`):**
-```bat
-taskkill /F /IM chrome.exe /T
-```
-
-**Kill all running Node.js processes (`PowerShell`):**
 ```powershell
-Get-Process -Name node -ErrorAction SilentlyContinue | Stop-Process -Force
+Get-Process -Name node -ErrorAction SilentlyContinue |
+  Stop-Process -Force
 ```
 
-**Free a stuck local dev port like `3000` (`PowerShell`):**
+Free a port used on `3000`:
+
 ```powershell
 Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue |
   Select-Object -ExpandProperty OwningProcess -Unique |
   ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }
 ```
 
----
+## Privacy and data
 
-## Controls & Shortcuts
+KillEverything works locally. Saved actions and settings are stored on your computer in a local SQLite database. It does not create an account or upload your scripts.
 
-| Action | How to Use |
-|---|---|
-| **Open Quick-Kill Popover** | Left-click the **Menu Bar / Tray icon** or the **Floating Tick** |
-| **Move Floating Tick** | Drag anywhere on screen (snaps cleanly to display edges & remembers position) |
-| **Instant Pinned Kill** | Right-click the **Tray icon** → click any **⚡ Pinned Script** |
-| **Keyboard Kill Flow** | Press `↑` / `↓` to select, `Enter` to run, `Esc` to close |
-| **Global Hotkey** | Open **Settings & Uninstall** → set e.g. `CommandOrControl+Shift+K` |
-| **Backup / Restore Scripts** | Open **Settings & Uninstall** → **Export Scripts JSON** or **Import Scripts JSON** (`Merge` / `Replace`) |
+Commands are only run when you request them—or when you have deliberately configured a shortcut or pinned action. Scripts that require administrator access ask through your operating system's normal permission prompt. KillEverything does not store passwords.
 
----
+## Uninstall
 
-## Clean Uninstall (Zero Leftovers)
+Removing the app also offers a clean data-wipe option. It can remove:
 
-KillEverything isolates every database file, cache, and autostart entry so removing it leaves your system spotless:
+- saved scripts and settings;
+- execution logs;
+- application caches;
+- launch-at-login and other startup entries.
 
-| Platform | How Clean Uninstall Works |
-|---|---|
-| **Windows** | The NSIS uninstaller (`NSIS_HOOK_PREUNINSTALL`) stops any running process, removes the startup Registry entry, and deletes `%APPDATA%\com.killeverything.app` and `%LOCALAPPDATA%\com.killeverything.app`. |
-| **macOS** | Packaged builds register a zero-CPU `launchd` `WatchPaths` watcher. Moving `KillEverything.app` to the Trash automatically wipes `Application Support`, `Caches`, `WebKit`, `HTTPStorages`, `Saved Application State`, `Preferences`, and `LaunchAgents`. |
-| **Linux** | Package `prerm` / `postrm` hooks terminate running instances and delete `.local/share/com.killeverything.app`, `.config/com.killeverything.app`, `.cache/com.killeverything.app`, and `.config/autostart/kill-everything.desktop`. |
-| **In-App / CLI** | Click **Settings & Uninstall → Uninstall & Wipe All App Data**, or run `kill-everything --uninstall-clean`. |
-
----
-
-## Build from Source (For Developers)
-
-**Prerequisites:** Node.js 22+, `pnpm`, Rust (`stable`), and [Tauri v2 system prerequisites](https://v2.tauri.app/start/prerequisites/).
+You can also find **Settings & Uninstall** in the app or run:
 
 ```bash
-# Install frontend packages
+kill-everything --uninstall-clean
+```
+
+Platform packages also use their normal uninstaller to clean app data and stop running instances.
+
+## Controls
+
+| Action | How to use it |
+|---|---|
+| Open quick actions | Click the menu-bar or tray icon |
+| Use the floating button | Click the small desktop tick |
+| Move the floating button | Drag it; it remembers its position |
+| Run a pinned action | Right-click the tray icon and choose it |
+| Browse actions quickly | Use ↑ / ↓, then press Enter |
+| Set a shortcut | Open Settings → Global Hotkey |
+| Back up actions | Open Settings → Export Scripts JSON |
+| Restore actions | Open Settings → Import Scripts JSON |
+
+## More from this collection
+
+KillEverything is one of a growing family of calm, privacy-focused desktop apps:
+
+- **[Readora](https://github.com/smokeInCloud060201/readora)** — a private, local-first PDF reader for reading, taking notes, and keeping your place.
+- **[Audora](https://github.com/smokeInCloud060201/audora)** — a local-first audio and video player for playback, timestamped notes, and organizing media.
+
+## Build from source
+
+This section is for developers and contributors.
+
+**Requirements:** Node.js 22+, pnpm, Rust (stable), and the [Tauri v2 system prerequisites](https://v2.tauri.app/start/prerequisites/).
+
+```bash
+# Install frontend dependencies
 pnpm install
 
-# Run in development mode
+# Start the desktop app in development mode
 pnpm tauri dev
 
-# Run frontend checks, Rust unit/integration tests, and production bundle
+# Run frontend checks and Rust tests
 pnpm check
 cargo test --manifest-path src-tauri/Cargo.toml
+
+# Create a production bundle
 pnpm tauri build
 ```
 
-For architectural details and engineering milestones, see [docs/DESIGN.md](docs/DESIGN.md) and [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+For implementation and architecture details, see [docs/DESIGN.md](docs/DESIGN.md) and [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+
+## Contributing
+
+Bug reports and feature ideas are welcome. Please describe what you expected, what happened instead, and your operating system. Do not include passwords or private data in reports.
