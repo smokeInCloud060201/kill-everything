@@ -32,6 +32,7 @@ pub fn run() {
 
     register_macos_trash_watcher_if_bundled();
 
+    #[allow(unused_mut)]
     let mut autostart_builder = tauri_plugin_autostart::Builder::new();
     #[cfg(target_os = "macos")]
     {
