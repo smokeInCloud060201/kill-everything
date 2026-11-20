@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# Terminate any running KillEverything processes before package removal
+pkill -x kill-everything 2>/dev/null || true
+
+exit 0

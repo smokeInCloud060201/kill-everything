@@ -1,0 +1,55 @@
+#!/bin/sh
+set -eu
+
+APP_ID="com.killeverything.app"
+ACTION="${1:-remove}"
+
+case "$ACTION" in
+  remove|purge|0)
+    ;;
+  *)
+    exit 0
+    ;;
+esac
+
+pkill -x kill-everything 2>/dev/null || true
+
+cleanup_home() {
+  home_dir="$1"
+  [ -n "$home_dir" ] || return 0
+  [ -d "$home_dir" ] || return 0
+
+  rm -rf \
+    "$home_dir/.local/share/$APP_ID" \
+    "$home_dir/.config/$APP_ID" \
+    "$home_dir/.cache/$APP_ID"
+  rm -f "$home_dir/.config/autostart/kill-everything.desktop"
+}
+
+if [ -n "${KILL_EVERYTHING_TEST_HOMES:-}" ]; then
+  OLD_IFS="$IFS"
+  IFS=':'
+  for test_home in $KILL_EVERYTHING_TEST_HOMES; do
+    cleanup_home "$test_home"
+  done
+  IFS="$OLD_IFS"
+  exit 0
+fi
+
+# Package managers execute maintainer scripts as root; clean all desktop user profiles.
+if [ -n "${SUDO_USER:-}" ] && [ "$SUDO_USER" != "root" ]; then
+  sudo_home="$(getent passwd "$SUDO_USER" 2>/dev/null | cut -d: -f6 || true)"
+  cleanup_home "$sudo_home"
+fi
+
+if command -v getent >/dev/null 2>&1; then
+  getent passwd | awk -F: '$3 >= 1000 && $3 < 65534 { print $6 }' | while IFS= read -r user_home; do
+    cleanup_home "$user_home"
+  done
+elif [ -r /etc/passwd ]; then
+  awk -F: '$3 >= 1000 && $3 < 65534 { print $6 }' /etc/passwd | while IFS= read -r user_home; do
+    cleanup_home "$user_home"
+  done
+fi
+
+exit 0
